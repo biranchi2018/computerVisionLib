@@ -45,7 +45,7 @@ class Common:
                 orig = drawContours(image, c, i)
 
             cv2.imshow("Contours find", orig)
-            waitWindowClose()
+            self.waitWindowClose()
 
         return cnts
 
@@ -111,7 +111,7 @@ class Common:
 
             if(debug==True):
                 cv2.imshow(colorSpace+" ColorSpace", img)
-                waitWindowClose()
+                self.waitWindowClose()
 
             return img
 
@@ -177,9 +177,9 @@ class Common:
 
         bitwiseAnd = cv2.bitwise_and(orgImage, orgImage, mask=mask)
         if(debug==True):
-            displayImage(title="Original", image=orgImage)
-            displayImage(title="Mask", image=mask)
-            displayImage(title="Masked", image=bitwiseAnd)
-            waitWindowClose()	
+            self.displayImage(title="Original", image=orgImage)
+            self.displayImage(title="Mask", image=mask)
+            self.displayImage(title="Masked", image=bitwiseAnd)
+            self.waitWindowClose()	
 			
         return bitwiseAnd        
