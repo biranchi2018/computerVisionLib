@@ -36,15 +36,14 @@ class Common:
     def findContours(self, image, debug=False):
         # detect contours in the edge map
         if(debug==True):
-            cv2.imshow("Original-Contours", image)
+            cv2.imshow("Find Contours: Original", image)
 
         (cnts, _) = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
         if(debug==True):
-            for (i, c) in enumerate(cnts):
-                orig = drawContours(image, c, i)
+            self.drawContours(image, cnts)
 
-            cv2.imshow("Contours find", orig)
+            cv2.imshow("Contours find and draw", image)
             self.waitWindowClose()
 
         return cnts
@@ -146,7 +145,7 @@ class Common:
             print('i:{} selected:{}'.format(i,channelSelect[i]))
             if(channelSelect[i]==1):
                 if(debug==True):
-                    cv2.imshow("Channel", chan)
+                    cv2.imshow("ColorSpace - Channel" + str(i), chan)
 
                 chan = cv2.medianBlur(chan, blur)
                 if(bwInvert==True):
@@ -154,7 +153,7 @@ class Common:
                 else:
                     (T, threshed) = cv2.threshold(chan, threshold[i], 255, cv2.THRESH_BINARY)
 
-                cv2.imshow("Threshold-"+str(i), threshed)
+                cv2.imshow("Thresholding - "+str(i), threshed)
 
                 #edged = cv2.Canny(threshed, canny[0], canny[1])
                 accumLayers = cv2.bitwise_or(accumLayers, threshed)
@@ -162,7 +161,7 @@ class Common:
             i += 1
 
         if(debug==True):
-            cv2.imshow("Edge Map", accumLayers)
+            cv2.imshow("Total channels - Edge Map", accumLayers)
             cv2.waitKey(0)
 
         return accumLayers
