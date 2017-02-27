@@ -88,7 +88,7 @@ class Common:
             zeros = np.zeros(image.shape[:2], dtype = "uint8")
             imgChannels = cv2.split(imgTransform)
             arrayChannel = []
-
+            print("toColorSpace Channel selected: {}".format(channelSelect))
             for (i,selected) in enumerate(channelSelect):
                 if(selected==1):
                     arrayChannel.append(imgChannels[i])

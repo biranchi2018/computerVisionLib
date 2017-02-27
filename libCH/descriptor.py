@@ -37,7 +37,7 @@ class colorDescriptor:
             self.image = commlib.onlyContours(self.image, colorSpace=colorSpace, channelSelect=channelSelect, blur=self.shapesBlur, 
                 threshold=self.shapesThreshold, bwInvert=self.shapesInvert, debug=self.debug)
 
-        self.image = commlib.toColorSpace(self.image, colorSpace, putRGBLayers, channelSelect, debug=self.debug)
+        self.image = commlib.toColorSpace(image=self.image, colorSpace=colorSpace, putRGBLayers=putRGBLayers, channelSelect=channelSelect, debug=self.debug)
 
         (means, stds) = cv2.meanStdDev(self.image)
         features = np.concatenate([means, stds]).flatten()
@@ -53,7 +53,7 @@ class colorDescriptor:
             self.image = commlib.onlyContours(self.image, colorSpace=colorSpace, channelSelect=channelSelect, blur=self.shapesBlur,
                 threshold=self.shapesThreshold, bwInvert=self.shapesInvert, debug=self.debug)
 			
-        self.image = commlib.toColorSpace(self.image, colorSpace, putRGBLayers, channelSelect, self.debug)
+        self.image = commlib.toColorSpace(image=self.image, colorSpace=colorSpace, putRGBLayers=putRGBLayers, channelSelect=channelSelect, debug=self.debug)
 
         hist = cv2.calcHist(self.image, [channelSelect[0], channelSelect[1], channelSelect[2]], None, bins, range)
         features = cv2.normalize(hist).flatten()
@@ -84,7 +84,7 @@ class momentsDescriptor:
             self.image = objImage
 
     def HuFeatures1(self, colorSpace="RGB", channelSelect=(1,1,1), blur=11, threshold=(50,50,50), bwInvert=False, debug=True):
-        bwImage = commlib.binaryShapes(self.image, colorSpace, channelSelect, blur, threshold, bwInvert, debug)
+        bwImage = commlib.binaryShapes(image=self.image, colorSpace=colorSpace, channelSelect=channelSelect, blur=blur, threshold=threshold, bwInvert=bwInvert, debug=debug)
         cnts = commlib.findContours(bwImage, debug=debug)
         print ('cnts number:{}'.format(len(cnts)))
 
@@ -107,7 +107,7 @@ class momentsDescriptor:
         return features
 
     def ZernikeFeatures1(self, colorSpace="RGB", channelSelect=(1,1,1), blur=11, threshold=(50,50,50), bwInvert=False, zern=(21, 8), debug=True):
-        bwImage = commlib.binaryShapes(self.image, colorSpace, channelSelect, blur, threshold, bwInvert, debug=debug)
+        bwImage = commlib.binaryShapes(image=self.image, colorSpace=colorSpace, channelSelect=channelSelect, blur=blur, threshold=threshold, bwInvert=bwInvert, debug=debug)
         cnts = commlib.findContours(bwImage, debug=debug)
         print ('cnts number:{}'.format(len(cnts)))
 
@@ -148,11 +148,12 @@ class TextureFeatures:
         else:
             if(objImage is None):
                 objImage = cv2.imread(imgPath)
-            
-            self.image = loadImage(objImage, resize_w)
 
-    def HaralickFeatures(self, colorSpace="RGB", channelSelect=(1,1,1), debug=True):  #example: describe(channelSelect=(1,0,0))
-        self.image = commlib.toColorSpace(self.image, colorSpace, channelSelect, debug=debug)
+            objImage = imutils.resize(objImage, width = resize_w)
+            self.image = objImage
+
+    def HaralickFeatures1(self, colorSpace="RGB", channelSelect=(1,1,1), debug=True):  #example: describe(channelSelect=(1,0,0))
+        self.image = commlib.toColorSpace(image=self.image, colorSpace=colorSpace, channelSelect=channelSelect, debug=debug)
         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         
         # extract Haralick texture features in 4 directions, then take the
