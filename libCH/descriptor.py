@@ -82,7 +82,14 @@ class momentsDescriptor:
 				
             objImage = imutils.resize(objImage, width = resize_w)            
             self.image = objImage
+    
+    #Easy Hu features, read image and get Hu moments
+    def HuFeatures(self):
+        image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        features = cv2.HuMoments(cv2.moments(image)).flatten()
+        return features
 
+    #Extract contours and get the largest to caculate the moments
     def HuFeatures1(self, colorSpace="RGB", channelSelect=(1,1,1), blur=11, threshold=(50,50,50), bwInvert=False, debug=True):
         bwImage = commlib.binaryShapes(image=self.image, colorSpace=colorSpace, channelSelect=channelSelect, blur=blur, threshold=threshold, bwInvert=bwInvert, debug=debug)
         cnts = commlib.findContours(bwImage, debug=debug)
