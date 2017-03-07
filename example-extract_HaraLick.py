@@ -8,5 +8,5 @@ args = vars(ap.parse_args())
 
 hara = TextureFeatures()
 hara.loadImage(imgPath=args["image"], resize_w=400)
-features = hara.HaralickFeatures1(colorSpace="RGB", channelSelect=(0,0,1), debug=True)
+features = hara.HaralickFeatures1(colorSpace="LBA", channelSelect=(1,1,1), debug=True)
 print features

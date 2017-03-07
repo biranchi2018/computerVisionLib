@@ -85,8 +85,8 @@ class momentsDescriptor:
     
     #Easy Hu features, read image and get Hu moments
     def HuFeatures(self):
-        image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-        features = cv2.HuMoments(cv2.moments(image)).flatten()
+        #image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        features = cv2.HuMoments(cv2.moments(self.image)).flatten()
         return features
 
     #Extract contours and get the largest to caculate the moments
